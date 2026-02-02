@@ -30,8 +30,9 @@ def add_to_routes(routes, line, old_or_new):
     stop_headsign = line["stop_headsign"]
     stop_sequence = line["stop_sequence"]
 
-    routes[stop_headsign] = routes.get(stop_headsign, {'old':{}, 'new':{}})
-    routes[stop_headsign][old_or_new] = time
+    if stop_headsign not in routes:
+        routes[stop_headsign] = dict({'old':list(), 'new':list()})
+    routes[stop_headsign][old_or_new].append(time)
 
 def sort_route(routes, route):
     return None
@@ -41,7 +42,8 @@ def print_route(routes, route):
     new_sorted = sorted(routes[route]['new'])
 
     for i in range(min(len(old_sorted), len(new_sorted))):
-        print(f"{route}: {old_sorted[i]} - {new_sorted[i]}")
+        if (old_sorted[i] != new_sorted[i]):
+            print(f"{route}: {old_sorted[i]} - {new_sorted[i]}")
     
     
 def main():
