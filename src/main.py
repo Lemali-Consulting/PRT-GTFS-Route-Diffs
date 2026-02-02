@@ -25,10 +25,10 @@ class StopNode:
         self.newtime = None
 
 def add_to_routes(routes, line, old_or_new):
-    time = line[TimeField.ARRIVAL_TIME]
-    stop_id = line[TimeField.STOP_ID]
-    stop_headsign = line[TimeField.STOP_HEADSIGN]
-    stop_sequence = line[TimeField.STOP_SEQUENCE]
+    time = line["arrival_time"]
+    stop_id = line["stop_id"]
+    stop_headsign = line["stop_headsign"]
+    stop_sequence = line["stop_sequence"]
 
     routes[stop_headsign] = routes.get(stop_headsign, {'old':{}, 'new':{}})
     routes[stop_headsign][old_or_new] = time
@@ -48,13 +48,13 @@ def main():
     routes = dict()
 
     with open(OCT_TIMES_CSV, "r") as oct_file:
-        oct_reader = csv.reader(oct_file, delimiter=",")
+        oct_reader = csv.DictReader(oct_file, delimiter=",")
         for row in oct_reader:
             add_to_routes(routes, row, 'old')
 
 
     with open(JAN_TIMES_CSV, "r") as jan_file:
-        jan_reader = csv.reader(jan_file, delimiter=",")
+        jan_reader = csv.DictReader(jan_file, delimiter=",")
         for row in jan_reader:
             add_to_routes(routes, row, 'new')
 
