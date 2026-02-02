@@ -4,9 +4,8 @@ import os
 import csv
 from enum import IntEnum
 
-ROOT_FILES = "/home/garry/documents/ppt/Time"
-OCT_TIMES_CSV = os.path.join(ROOT_FILES, "October_16_2025/stop_times.txt")
-JAN_TIMES_CSV = os.path.join(ROOT_FILES, "January_26_2025/stop_times.txt")
+OCT_TIMES_CSV = os.path.relpath("../October_16_2025/stop_times.txt")
+JAN_TIMES_CSV = os.path.relpath("../January_26_2026/stop_times.txt")
 
 class TimeField(IntEnum):
     TRIP_ID = 0
@@ -24,7 +23,6 @@ class StopNode:
     def __init__(self):
         self.oldtime = None
         self.newtime = None
-        self. = None
 
 def add_to_routes(routes, line, old_or_new):
     time = line[TimeField.ARRIVAL_TIME]
@@ -33,10 +31,10 @@ def add_to_routes(routes, line, old_or_new):
     stop_sequence = line[TimeField.STOP_SEQUENCE]
 
     routes[stop_headsign] = routes.get(stop_headsign, {'old':{}, 'new':{}})
-    routes[stop_headsign][old_or_new].append(time)
+    routes[stop_headsign][old_or_new] = time
 
 def sort_route(routes, route):
-
+    return None
 
 def print_route(routes, route):
     old_sorted = sorted(routes[route]['old'])
